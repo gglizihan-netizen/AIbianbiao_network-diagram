@@ -144,7 +144,7 @@ export const Select: React.FC<InputProps & SelectHTMLAttributes<HTMLSelectElemen
               <span className="truncate block">{selectedOptions[0]?.label}</span>
             )
           ) : (
-            <span>请选择内容</span>
+            <span>请选择紧后工作</span>
           )}
         </div>
         <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`w-4 h-4 shrink-0 transition-transform ${isOpen ? 'rotate-180 text-[#1F63D1]' : 'text-[#86909c]'}`}>

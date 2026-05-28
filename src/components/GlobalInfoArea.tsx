@@ -10,8 +10,8 @@ interface Props {
   layout?: 'horizontal' | 'vertical';
 }
 
-const fonts = ['SimSun', 'Microsoft YaHei', 'FangSong', 'KaiTi', 'PingFang SC', 'Arial'];
-const fontSizes = ['12', '13', '14', '16', '18', '20', '24'];
+const fonts = ['宋体', '仿宋', '仿宋体', '微软雅黑', '黑体', '楷体'];
+const fontSizes = ['初号', '小初', '一号', '小一', '二号', '小二', '三号', '小三', '四号', '小四', '五号', '小五', '六号', '小六'];
 
 export const GlobalInfoArea: React.FC<Props> = ({ globalInfo, errors, onChange, onBlur, layout = 'horizontal' }) => {
   const containerClass = layout === 'horizontal' 
@@ -23,7 +23,7 @@ export const GlobalInfoArea: React.FC<Props> = ({ globalInfo, errors, onChange, 
   return (
     <div className={`p-4 bg-[#F4F6F8] rounded-lg border border-[#f2f3f5] ${containerClass}`}>
       <div className={wrapperClass}>
-        <Label>渲染字体</Label>
+        <Label>网络图字体</Label>
         <Select 
           value={globalInfo.font} 
           onChange={(e) => onChange('font', e.target.value)}
@@ -34,7 +34,7 @@ export const GlobalInfoArea: React.FC<Props> = ({ globalInfo, errors, onChange, 
       </div>
 
       <div className={wrapperClass}>
-        <Label>全局字号</Label>
+        <Label>网络图字号</Label>
         <Select 
           value={globalInfo.fontSize} 
           onChange={(e) => onChange('fontSize', e.target.value)}
@@ -45,14 +45,14 @@ export const GlobalInfoArea: React.FC<Props> = ({ globalInfo, errors, onChange, 
       </div>
 
       <div className={wrapperClass}>
-        <Label>标尺单位 (px)</Label>
+        <Label>标尺间隔（天）</Label>
         <Input 
           type="text" 
           value={globalInfo.rulerInterval}
           onChange={(e) => onChange('rulerInterval', e.target.value)}
           onBlur={onBlur}
           error={errors?.rulerInterval}
-          placeholder="数字"
+          placeholder="请输入标尺间隔"
         />
       </div>
     </div>

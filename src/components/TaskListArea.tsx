@@ -54,7 +54,7 @@ export const TaskListArea: React.FC<TaskListProps> = ({
                   onChange={e => onUpdate(task.id, 'name', e.target.value)} 
                   onBlur={onBlur}
                   error={taskErrors.name}
-                  placeholder="工作名称"
+                  placeholder="请输入工作名称"
                   autoFocus={task.isNew}
                 />
               </div>

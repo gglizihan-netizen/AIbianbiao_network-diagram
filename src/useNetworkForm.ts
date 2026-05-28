@@ -2,8 +2,8 @@ import { useState, useCallback } from 'react';
 import { GlobalInfo, Task, FormErrors } from './types';
 
 const defaultGlobal: GlobalInfo = {
-  font: 'Microsoft YaHei',
-  fontSize: '14',
+  font: '微软雅黑',
+  fontSize: '小四',
   rulerInterval: '100',
 };
 
