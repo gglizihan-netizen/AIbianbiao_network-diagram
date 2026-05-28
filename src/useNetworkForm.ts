@@ -5,13 +5,14 @@ const defaultGlobal: GlobalInfo = {
   font: '微软雅黑',
   fontSize: '小四',
   rulerInterval: '100',
+  showGridLines: true,
 };
 
 const defaultTasks: Task[] = [
-  { id: '1', name: '需求调研分析', duration: '5', freeFloat: '2', successorId: ['2'], startDate: '2026-06-01', endDate: '2026-06-05', level: 0 },
-  { id: '2', name: '系统架构设计', duration: '10', freeFloat: '0', successorId: ['3'], startDate: '2026-06-06', endDate: '2026-06-15', level: 0 },
-  { id: '3', name: '前端页面开发', duration: '15', freeFloat: '2', successorId: [], startDate: '2026-06-16', endDate: '2026-06-30', level: 0 },
-  { id: '4', name: '基础组件封装', duration: '5', freeFloat: '0', successorId: ['3'], startDate: '2026-06-16', endDate: '2026-06-20', level: 1 },
+  { id: '1', name: '需求调研分析', duration: '5', freeFloat: '2', successorId: ['2'], startDate: '2026-06-01', endDate: '2026-06-05', level: 0, plannedLabor: '2' },
+  { id: '2', name: '系统架构设计', duration: '10', freeFloat: '0', successorId: ['3'], startDate: '2026-06-06', endDate: '2026-06-15', level: 0, plannedLabor: '1' },
+  { id: '3', name: '前端页面开发', duration: '15', freeFloat: '2', successorId: [], startDate: '2026-06-16', endDate: '2026-06-30', level: 0, plannedLabor: '3' },
+  { id: '4', name: '基础组件封装', duration: '5', freeFloat: '0', successorId: ['3'], startDate: '2026-06-16', endDate: '2026-06-20', level: 1, plannedLabor: '2' },
 ];
 
 const addDays = (dateStr: string, days: number) => {
@@ -130,6 +131,7 @@ export function useNetworkForm() {
       endDate,
       level,
       isNew: true,
+      plannedLabor: '',
     };
     const next = [...tasks];
     let insertIndex = index + 1;
@@ -156,6 +158,7 @@ export function useNetworkForm() {
       endDate,
       level: parentLevel + 1,
       isNew: true,
+      plannedLabor: '',
     };
     const next = [...tasks];
     next.splice(index + 1, 0, newTask);

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNetworkForm } from '../useNetworkForm';
-import { GlobalInfoArea } from './GlobalInfoArea';
-import { TaskListArea } from './TaskListArea';
+import { GanttGlobalInfoArea } from './GanttGlobalInfoArea';
+import { GanttTaskListArea } from './GanttTaskListArea';
 import { Button, IconButton } from './UI';
 import { X, Save, RotateCcw } from 'lucide-react';
 
@@ -9,7 +9,7 @@ interface Props {
   onClose: () => void;
 }
 
-export const NetworkConfigModal: React.FC<Props> = ({ onClose }) => {
+export const GanttConfigModal: React.FC<Props> = ({ onClose }) => {
   const { globalInfo, tasks, errors, updateGlobal, updateTask, addTaskSibling, addTaskChild, removeTask, resetForm, validate } = useNetworkForm();
   const [isExpanded, setIsExpanded] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -37,7 +37,7 @@ export const NetworkConfigModal: React.FC<Props> = ({ onClose }) => {
         
         <div className="flex items-center justify-between p-4 px-6">
           <div className="flex items-center gap-2">
-            <h2 className="text-[16px] leading-[24px] font-bold tracking-tight text-[#1d2129]">网络图信息修改</h2>
+            <h2 className="text-[16px] leading-[24px] font-bold tracking-tight text-[#1d2129]">横道图信息修改</h2>
           </div>
           <IconButton onClick={onClose}><X className="w-5 h-5 text-[#666666]" /></IconButton>
         </div>
@@ -50,7 +50,7 @@ export const NetworkConfigModal: React.FC<Props> = ({ onClose }) => {
               className={`transition-all duration-300 ease-in-out origin-top ${isExpanded ? 'max-h-0 opacity-0 mb-0 overflow-hidden' : `max-h-[200px] opacity-100 mb-2 ${isAnimating ? 'overflow-hidden' : 'overflow-visible'}`}`}
               onTransitionEnd={() => setIsAnimating(false)}
             >
-              <GlobalInfoArea globalInfo={globalInfo} errors={errors.global} onChange={updateGlobal} onBlur={() => validate()} layout="horizontal" />
+              <GanttGlobalInfoArea globalInfo={globalInfo} onChange={updateGlobal} onBlur={() => validate()} layout="horizontal" />
             </div>
           </section>
 
@@ -60,7 +60,7 @@ export const NetworkConfigModal: React.FC<Props> = ({ onClose }) => {
               <span className="text-[12px] font-normal leading-[18px] text-[#666666] bg-slate-100 px-2 py-0.5 rounded mb-1">共 {tasks.length} 条任务</span>
             </h3>
             <div className="flex-1 overflow-hidden">
-               <TaskListArea 
+               <GanttTaskListArea 
                  tasks={tasks} errors={errors.tasks} 
                  onUpdate={updateTask} onAddSibling={addTaskSibling} onAddChild={addTaskChild} onRemove={removeTask} 
                  isExpanded={isExpanded} onToggleExpand={handleToggleExpand}

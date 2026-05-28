@@ -15,15 +15,15 @@ const fontSizes = ['初号', '小初', '一号', '小一', '二号', '小二', '
 
 export const GlobalInfoArea: React.FC<Props> = ({ globalInfo, errors, onChange, onBlur, layout = 'horizontal' }) => {
   const containerClass = layout === 'horizontal' 
-    ? 'grid grid-cols-3 gap-4' 
+    ? 'grid grid-cols-3 gap-[50px]' 
     : 'flex flex-col gap-3';
 
-  const wrapperClass = layout === 'horizontal' ? 'flex flex-col gap-1' : 'space-y-1';
+  const wrapperClass = layout === 'horizontal' ? 'flex items-center gap-3' : 'flex flex-col gap-1.5';
 
   return (
     <div className={`p-4 bg-[#F4F6F8] rounded-lg border border-[#f2f3f5] ${containerClass}`}>
       <div className={wrapperClass}>
-        <Label>网络图字体</Label>
+        <Label className={layout === 'horizontal' ? 'mb-0 whitespace-nowrap shrink-0' : ''}>字体</Label>
         <Select 
           value={globalInfo.font} 
           onChange={(e) => onChange('font', e.target.value)}
@@ -34,7 +34,7 @@ export const GlobalInfoArea: React.FC<Props> = ({ globalInfo, errors, onChange, 
       </div>
 
       <div className={wrapperClass}>
-        <Label>网络图字号</Label>
+        <Label className={layout === 'horizontal' ? 'mb-0 whitespace-nowrap shrink-0' : ''}>字号</Label>
         <Select 
           value={globalInfo.fontSize} 
           onChange={(e) => onChange('fontSize', e.target.value)}
@@ -45,7 +45,7 @@ export const GlobalInfoArea: React.FC<Props> = ({ globalInfo, errors, onChange, 
       </div>
 
       <div className={wrapperClass}>
-        <Label>标尺间隔（天）</Label>
+        <Label className={layout === 'horizontal' ? 'mb-0 whitespace-nowrap shrink-0' : ''}>标尺间隔（天）</Label>
         <Input 
           type="text" 
           value={globalInfo.rulerInterval}

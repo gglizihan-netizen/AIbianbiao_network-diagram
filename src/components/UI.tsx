@@ -246,6 +246,27 @@ export const Label: React.FC<{ children: React.ReactNode; className?: string }> 
   <label className={`block text-[14px] leading-[22px] text-[#666666] mb-1 font-normal ${className || ''}`}>{children}</label>
 );
 
+export const Switch = ({ checked, onChange, disabled }: { checked: boolean, onChange: (checked: boolean) => void, disabled?: boolean }) => {
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={checked}
+      onClick={() => !disabled && onChange(!checked)}
+      className={`${
+        checked ? 'bg-[#1F63D1]' : 'bg-[#e5e6eb]'
+      } relative inline-flex h-5 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full transition-colors duration-200 ease-in-out focus:outline-none ${disabled ? 'opacity-60 cursor-not-allowed' : ''}`}
+    >
+      <span
+        aria-hidden="true"
+        className={`${
+          checked ? 'translate-x-2' : '-translate-x-2'
+        } pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out`}
+      />
+    </button>
+  );
+};
+
 export const ConfirmModal = ({ isOpen, title, message, onConfirm, onCancel }: { isOpen: boolean, title: string, message: string, onConfirm: () => void, onCancel: () => void }) => {
   if (!isOpen) return null;
   return (

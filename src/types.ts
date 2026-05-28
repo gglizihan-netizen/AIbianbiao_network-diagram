@@ -2,6 +2,7 @@ export interface GlobalInfo {
   font: string;
   fontSize: string;
   rulerInterval: string;
+  showGridLines?: boolean;
 }
 
 export interface Task {
@@ -14,6 +15,7 @@ export interface Task {
   endDate: string;
   level: number;
   isNew?: boolean;
+  plannedLabor?: string;
 }
 
 export interface FormErrors {
