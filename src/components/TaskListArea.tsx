@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Task } from '../types';
-import { Input, Select, IconButton, ConfirmModal } from './UI';
+import { Input, Select, IconButton } from './UI';
 import { DatePicker } from './DatePicker';
 import { Trash2, CornerDownRight, Plus, Maximize2, Minimize2 } from 'lucide-react';
 
@@ -13,20 +13,14 @@ interface TaskListProps {
   onRemove: (id: string) => void;
   isExpanded?: boolean;
   onToggleExpand?: () => void;
+  onBlur?: () => void;
 }
 
 const gridPattern = "grid-cols-[2fr_2fr_0.8fr_0.8fr_1.2fr_1.2fr_120px]";
 
 export const TaskListArea: React.FC<TaskListProps> = ({
-  tasks, errors, onUpdate, onAddSibling, onAddChild, onRemove, isExpanded, onToggleExpand
+  tasks, errors, onUpdate, onAddSibling, onAddChild, onRemove, isExpanded, onToggleExpand, onBlur
 }) => {
-  const [deleteId, setDeleteId] = useState<string | null>(null);
-
-  const handleDeleteConfirm = () => {
-    if (deleteId) onRemove(deleteId);
-    setDeleteId(null);
-  };
-
   return (
     <div className="flex flex-col h-full bg-white rounded-lg border border-[#f2f3f5] overflow-hidden shadow-sm">
       <div className={`relative grid ${gridPattern} gap-2 px-3 py-2 bg-[#F4F6F8] border-b border-[#f2f3f5] text-[14px] font-normal leading-[22px] text-[#666666]`}>
@@ -58,9 +52,9 @@ export const TaskListArea: React.FC<TaskListProps> = ({
                 <Input 
                   value={task.name} 
                   onChange={e => onUpdate(task.id, 'name', e.target.value)} 
+                  onBlur={onBlur}
                   error={taskErrors.name}
                   placeholder="工作名称"
-                  className={task.level > 0 ? "text-[#666666]" : ""}
                   autoFocus={task.isNew}
                 />
               </div>
@@ -83,6 +77,7 @@ export const TaskListArea: React.FC<TaskListProps> = ({
                   type="text" 
                   value={task.duration} 
                   onChange={e => onUpdate(task.id, 'duration', e.target.value)} 
+                  onBlur={onBlur}
                   error={taskErrors.duration}
                   className="font-mono text-center"
                 />
@@ -93,6 +88,7 @@ export const TaskListArea: React.FC<TaskListProps> = ({
                   type="text" 
                   value={task.freeFloat} 
                   onChange={e => onUpdate(task.id, 'freeFloat', e.target.value)} 
+                  onBlur={onBlur}
                   error={taskErrors.freeFloat}
                   className="font-mono text-center"
                 />
@@ -101,7 +97,7 @@ export const TaskListArea: React.FC<TaskListProps> = ({
               <div>
                 <DatePicker 
                   value={task.startDate} 
-                  onChange={e => onUpdate(task.id, 'startDate', e.target.value)} 
+                  onChange={e => { onUpdate(task.id, 'startDate', e.target.value); if (onBlur) onBlur(); }} 
                   error={taskErrors.startDate}
                 />
               </div>
@@ -109,7 +105,7 @@ export const TaskListArea: React.FC<TaskListProps> = ({
               <div>
                 <DatePicker 
                   value={task.endDate} 
-                  onChange={e => onUpdate(task.id, 'endDate', e.target.value)} 
+                  onChange={e => { onUpdate(task.id, 'endDate', e.target.value); if (onBlur) onBlur(); }} 
                   error={taskErrors.endDate}
                 />
               </div>
@@ -121,7 +117,7 @@ export const TaskListArea: React.FC<TaskListProps> = ({
                 <IconButton onClick={() => onAddChild(index, task.level)} title="增加次级任务" variant="primary">
                   <CornerDownRight className="w-3.5 h-3.5" />
                 </IconButton>
-                <IconButton onClick={() => setDeleteId(task.id)} title="删除" variant="danger">
+                <IconButton onClick={() => onRemove(task.id)} title="删除" variant="danger">
                   <Trash2 className="w-3.5 h-3.5" />
                 </IconButton>
               </div>
@@ -132,14 +128,6 @@ export const TaskListArea: React.FC<TaskListProps> = ({
           <div className="text-center py-12 text-sm text-gray-400">暂无任务数据，请添加</div>
         )}
       </div>
-
-      <ConfirmModal 
-        isOpen={!!deleteId} 
-        title="删除单条任务" 
-        message="确认删除当前选中的任务记录吗？此操作不可撤销。" 
-        onConfirm={handleDeleteConfirm} 
-        onCancel={() => setDeleteId(null)} 
-      />
     </div>
   );
 };

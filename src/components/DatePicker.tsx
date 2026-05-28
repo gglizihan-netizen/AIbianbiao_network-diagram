@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { Calendar as CalendarIcon, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
 
 interface DatePickerProps {
   value: string;
@@ -80,13 +80,21 @@ export const DatePicker: React.FC<DatePickerProps> = ({ value, onChange, error, 
     e.stopPropagation();
     setViewDate(new Date(year, month + 1, 1));
   };
+  const prevYear = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setViewDate(new Date(year - 1, month, 1));
+  };
+  const nextYear = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setViewDate(new Date(year + 1, month, 1));
+  };
 
   return (
     <div className={`relative w-full ${disabled ? 'opacity-60 cursor-not-allowed' : ''} ${className || ''}`} ref={containerRef}>
       <div
         className={`w-full h-[32px] px-2 text-[14px] leading-[22px] font-normal border rounded-sm outline-none transition-all box-border cursor-pointer flex items-center justify-between
         ${error ? 'border-red-400 focus:border-red-500 shadow-[0_0_0_2px_rgba(245,63,63,0.2)]' : (isOpen && !disabled ? 'border-[#1F63D1] shadow-[0_0_0_2px_rgba(31,99,209,0.2)]' : `border-[#e5e6eb] ${!disabled ? 'hover:border-[#1F63D1]' : ''}`)} 
-        bg-white ${value ? 'text-[#1d2129]' : 'text-[#86909c]'}`}
+        bg-white ${value ? 'text-[#1d2129]' : 'text-[#C7C7C7]'}`}
         onClick={() => !disabled && setIsOpen(!isOpen)}
         tabIndex={disabled ? -1 : 0}
       >
@@ -103,12 +111,16 @@ export const DatePicker: React.FC<DatePickerProps> = ({ value, onChange, error, 
           }}
         >
           <div className="flex justify-between items-center mb-2">
+            <div className="flex gap-1">
+              <div onClick={prevYear} className="p-1 cursor-pointer hover:bg-slate-100 rounded-sm text-[#4e5969]"><ChevronsLeft className="w-4 h-4" /></div>
+              <div onClick={prevMonth} className="p-1 cursor-pointer hover:bg-slate-100 rounded-sm text-[#4e5969]"><ChevronLeft className="w-4 h-4" /></div>
+            </div>
             <div className="text-[14px] font-medium text-[#1d2129]">
               {year}年{String(month + 1).padStart(2, '0')}月
             </div>
             <div className="flex gap-1">
-              <div onClick={prevMonth} className="p-1 cursor-pointer hover:bg-slate-100 rounded-sm text-[#4e5969]"><ChevronLeft className="w-4 h-4" /></div>
               <div onClick={nextMonth} className="p-1 cursor-pointer hover:bg-slate-100 rounded-sm text-[#4e5969]"><ChevronRight className="w-4 h-4" /></div>
+              <div onClick={nextYear} className="p-1 cursor-pointer hover:bg-slate-100 rounded-sm text-[#4e5969]"><ChevronsRight className="w-4 h-4" /></div>
             </div>
           </div>
           <div className="grid grid-cols-7 gap-1 text-center mb-1">

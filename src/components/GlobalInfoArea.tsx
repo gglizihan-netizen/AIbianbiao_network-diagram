@@ -6,13 +6,14 @@ interface Props {
   globalInfo: GlobalInfo;
   errors?: Record<string, string>;
   onChange: (key: keyof GlobalInfo, value: string) => void;
+  onBlur?: () => void;
   layout?: 'horizontal' | 'vertical';
 }
 
 const fonts = ['SimSun', 'Microsoft YaHei', 'FangSong', 'KaiTi', 'PingFang SC', 'Arial'];
 const fontSizes = ['12', '13', '14', '16', '18', '20', '24'];
 
-export const GlobalInfoArea: React.FC<Props> = ({ globalInfo, errors, onChange, layout = 'horizontal' }) => {
+export const GlobalInfoArea: React.FC<Props> = ({ globalInfo, errors, onChange, onBlur, layout = 'horizontal' }) => {
   const containerClass = layout === 'horizontal' 
     ? 'grid grid-cols-3 gap-4' 
     : 'flex flex-col gap-3';
@@ -26,6 +27,7 @@ export const GlobalInfoArea: React.FC<Props> = ({ globalInfo, errors, onChange, 
         <Select 
           value={globalInfo.font} 
           onChange={(e) => onChange('font', e.target.value)}
+          onBlur={onBlur}
         >
           {fonts.map(f => <option key={f} value={f}>{f}</option>)}
         </Select>
@@ -36,6 +38,7 @@ export const GlobalInfoArea: React.FC<Props> = ({ globalInfo, errors, onChange, 
         <Select 
           value={globalInfo.fontSize} 
           onChange={(e) => onChange('fontSize', e.target.value)}
+          onBlur={onBlur}
         >
           {fontSizes.map(size => <option key={size} value={size}>{size}</option>)}
         </Select>
@@ -47,6 +50,7 @@ export const GlobalInfoArea: React.FC<Props> = ({ globalInfo, errors, onChange, 
           type="text" 
           value={globalInfo.rulerInterval}
           onChange={(e) => onChange('rulerInterval', e.target.value)}
+          onBlur={onBlur}
           error={errors?.rulerInterval}
           placeholder="数字"
         />

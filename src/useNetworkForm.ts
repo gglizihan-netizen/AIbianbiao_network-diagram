@@ -71,7 +71,14 @@ export function useNetworkForm() {
   const updateGlobal = (key: keyof GlobalInfo, value: string) => {
     const next = { ...globalInfo, [key]: value };
     setGlobalInfo(next);
-    validate(next, tasks, false);
+    setErrors(prev => {
+      if (prev.global[key]) {
+        const newErrors = { ...prev, global: { ...prev.global } };
+        delete newErrors.global[key];
+        return newErrors;
+      }
+      return prev;
+    });
   };
 
   const updateTask = (id: string, key: keyof Task, value: any) => {
@@ -97,7 +104,14 @@ export function useNetworkForm() {
       return t;
     });
     setTasks(next);
-    validate(globalInfo, next);
+    setErrors(prev => {
+      if (prev.tasks[id] && prev.tasks[id][key as string]) {
+        const newErrors = { ...prev, tasks: { ...prev.tasks, [id]: { ...prev.tasks[id] } } };
+        delete newErrors.tasks[id][key as string];
+        return newErrors;
+      }
+      return prev;
+    });
   };
 
   const addTaskSibling = (index: number, level: number) => {

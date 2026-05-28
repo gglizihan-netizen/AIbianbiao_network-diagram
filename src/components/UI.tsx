@@ -12,7 +12,7 @@ export const Input: React.FC<InputProps> = ({ error, className, onClick, onKeyDo
       <input
         className={`w-full h-[32px] px-2 text-[14px] leading-[22px] font-normal border rounded-sm outline-none transition-all box-border
         ${error ? 'border-red-400 focus:border-red-500 focus:shadow-[0_0_0_2px_rgba(245,63,63,0.2)]' : 'border-[#e5e6eb] focus:border-[#1F63D1] hover:border-[#1F63D1] focus:shadow-[0_0_0_2px_rgba(31,99,209,0.2)]'} 
-        bg-white text-[#1d2129] ${className || ''}`}
+        bg-white text-[#1d2129] placeholder:text-[#C7C7C7] ${className || ''}`}
         onClick={onClick}
         onKeyDown={onKeyDown}
         {...props}
@@ -117,7 +117,7 @@ export const Select: React.FC<InputProps & SelectHTMLAttributes<HTMLSelectElemen
       <div 
         className={`w-full min-h-[32px] px-2 py-1 flex items-center justify-between text-[14px] leading-[20px] font-normal border rounded-sm outline-none transition-all box-border ${disabled ? 'cursor-not-allowed bg-gray-50' : 'cursor-pointer bg-white'}
         ${error ? 'border-red-400 focus:border-red-500 shadow-[0_0_0_2px_rgba(245,63,63,0.2)]' : (isOpen && !disabled ? 'border-[#1F63D1] shadow-[0_0_0_2px_rgba(31,99,209,0.2)]' : `border-[#e5e6eb] ${!disabled ? 'hover:border-[#1F63D1]' : ''}`)} 
-        ${selectedOptions.length > 0 ? 'text-[#1d2129]' : 'text-[#86909c]'}`}
+        ${selectedOptions.length > 0 ? 'text-[#1d2129]' : 'text-[#C7C7C7]'}`}
         onClick={() => !disabled && setIsOpen(!isOpen)}
         tabIndex={disabled ? -1 : 0}
       >

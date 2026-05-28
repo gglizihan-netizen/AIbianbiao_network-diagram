@@ -50,7 +50,7 @@ export const NetworkConfigModal: React.FC<Props> = ({ onClose }) => {
               className={`transition-all duration-300 ease-in-out origin-top ${isExpanded ? 'max-h-0 opacity-0 mb-0 overflow-hidden' : `max-h-[200px] opacity-100 mb-2 ${isAnimating ? 'overflow-hidden' : 'overflow-visible'}`}`}
               onTransitionEnd={() => setIsAnimating(false)}
             >
-              <GlobalInfoArea globalInfo={globalInfo} errors={errors.global} onChange={updateGlobal} layout="horizontal" />
+              <GlobalInfoArea globalInfo={globalInfo} errors={errors.global} onChange={updateGlobal} onBlur={() => validate()} layout="horizontal" />
             </div>
           </section>
 
@@ -64,6 +64,7 @@ export const NetworkConfigModal: React.FC<Props> = ({ onClose }) => {
                  tasks={tasks} errors={errors.tasks} 
                  onUpdate={updateTask} onAddSibling={addTaskSibling} onAddChild={addTaskChild} onRemove={removeTask} 
                  isExpanded={isExpanded} onToggleExpand={handleToggleExpand}
+                 onBlur={() => validate()}
                />
             </div>
           </section>
