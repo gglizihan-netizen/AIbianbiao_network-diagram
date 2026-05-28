@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Task } from '../types';
 import { Input, Select, IconButton, ConfirmModal } from './UI';
+import { DatePicker } from './DatePicker';
 import { Trash2, CornerDownRight, Plus, Maximize2, Minimize2 } from 'lucide-react';
 
 interface TaskListProps {
@@ -98,8 +99,7 @@ export const TaskListArea: React.FC<TaskListProps> = ({
               </div>
 
               <div>
-                <Input 
-                  type="date" 
+                <DatePicker 
                   value={task.startDate} 
                   onChange={e => onUpdate(task.id, 'startDate', e.target.value)} 
                   error={taskErrors.startDate}
@@ -107,8 +107,7 @@ export const TaskListArea: React.FC<TaskListProps> = ({
               </div>
 
               <div>
-                <Input 
-                  type="date" 
+                <DatePicker 
                   value={task.endDate} 
                   onChange={e => onUpdate(task.id, 'endDate', e.target.value)} 
                   error={taskErrors.endDate}

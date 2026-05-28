@@ -1,17 +1,20 @@
 import React, { InputHTMLAttributes, SelectHTMLAttributes, ButtonHTMLAttributes, useState, useRef, useEffect } from 'react';
-import { X } from 'lucide-react';
+import { createPortal } from 'react-dom';
+import { X, Calendar as CalendarIcon, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: string;
 }
 
-export const Input: React.FC<InputProps> = ({ error, className, ...props }) => {
+export const Input: React.FC<InputProps> = ({ error, className, onClick, onKeyDown, ...props }) => {
   return (
     <div className="relative w-full">
       <input
-        className={`w-full h-[32px] px-2 text-[14px] leading-[22px] font-normal border rounded-sm outline-none transition-colors box-border
-        ${error ? 'border-red-400 focus:border-red-500' : 'border-[#e5e6eb] focus:border-[#1F63D1]'} 
+        className={`w-full h-[32px] px-2 text-[14px] leading-[22px] font-normal border rounded-sm outline-none transition-all box-border
+        ${error ? 'border-red-400 focus:border-red-500 focus:shadow-[0_0_0_2px_rgba(245,63,63,0.2)]' : 'border-[#e5e6eb] focus:border-[#1F63D1] hover:border-[#1F63D1] focus:shadow-[0_0_0_2px_rgba(31,99,209,0.2)]'} 
         bg-white text-[#1d2129] ${className || ''}`}
+        onClick={onClick}
+        onKeyDown={onKeyDown}
         {...props}
       />
       {error && (
@@ -45,16 +48,37 @@ export const Select: React.FC<InputProps & SelectHTMLAttributes<HTMLSelectElemen
   };
 
   const selectedOptions = options.filter(opt => isSelected(opt.value));
+  const [rect, setRect] = useState<DOMRect | null>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
+      // Allow clicks inside the portal
+      if ((event.target as Element).closest('.custom-dropdown-portal')) {
+        return;
+      }
       if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+    
+    const updateRect = () => {
+      if (containerRef.current) {
+        setRect(containerRef.current.getBoundingClientRect());
+      }
+    };
+
+    if (isOpen) {
+      updateRect();
+      document.addEventListener('mousedown', handleClickOutside);
+      window.addEventListener('scroll', updateRect, true);
+      window.addEventListener('resize', updateRect);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      window.removeEventListener('scroll', updateRect, true);
+      window.removeEventListener('resize', updateRect);
+    };
+  }, [isOpen]);
 
   const handleSelect = (val: any) => {
     if (multiple) {
@@ -128,8 +152,15 @@ export const Select: React.FC<InputProps & SelectHTMLAttributes<HTMLSelectElemen
         </svg>
       </div>
 
-      {isOpen && (
-        <div className="absolute top-[calc(100%+4px)] left-0 w-full bg-white border border-[#e5e6eb] rounded-sm shadow-[0_4px_10px_rgba(0,0,0,0.1)] z-50 py-1 max-h-64 overflow-y-auto">
+      {isOpen && rect && document.body && createPortal(
+        <div 
+          className="custom-dropdown-portal fixed bg-white border border-[#e5e6eb] rounded-sm shadow-[0_4px_10px_rgba(0,0,0,0.1)] z-[99999] py-1 max-h-64 overflow-y-auto"
+          style={{
+            top: rect.bottom + 4,
+            left: rect.left,
+            width: rect.width,
+          }}
+        >
           {options.map((opt, idx) => (
             opt.value === '' && multiple ? null : (
               <div 
@@ -161,7 +192,8 @@ export const Select: React.FC<InputProps & SelectHTMLAttributes<HTMLSelectElemen
               </div>
             )
           ))}
-        </div>
+        </div>,
+        document.body
       )}
       
       {error && (
