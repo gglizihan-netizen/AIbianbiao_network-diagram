@@ -1,0 +1,6 @@
+{
+  "name": "网络图信息修改系统",
+  "description": "提供三种现代简约B端办公风格的网络图全局信息与任务列表编辑弹窗方案。",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
